@@ -1,10 +1,12 @@
 ## nginx ingress configuration
-## Ref: https://github.com/kubernetes/charts/blob/master/stable/nginx-ingress/values.yaml
+## Ref: https://github.com/kubernetes/ingress-nginx/blob/main/charts/ingress-nginx/values.yaml
 controller:
   kind: DaemonSet
-  daemonset:
-    useHostPort: true
+  hostPort:
+    enabled: true
   metrics:
+    enabled: false
+  admissionWebhooks:
     enabled: false
   resources:
     limits:
@@ -14,6 +16,7 @@ controller:
       cpu: 50m
       memory: 90Mi
 defaultBackend:
+  enabled: true
   resources:
     limits:
       cpu: 10m

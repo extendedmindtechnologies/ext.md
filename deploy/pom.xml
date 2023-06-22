@@ -94,7 +94,7 @@
             </goals>
             <configuration>
               <executable>sh</executable>
-              <commandlineArgs>-c 'helm repo add jetstack https://charts.jetstack.io &amp;&amp; helm repo add stable https://kubernetes-charts.storage.googleapis.com &amp;&amp; helm repo update'</commandlineArgs>
+              <commandlineArgs>-c 'helm repo add jetstack https://charts.jetstack.io &amp;&amp; helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx &amp;&amp; helm repo update'</commandlineArgs>
             </configuration>
           </execution>
           <execution>
@@ -114,8 +114,7 @@
               <goal>exec</goal>
             </goals>
             <configuration>
-              <!-- NOTE: helm wait flag causes timeout -->
-              <commandlineArgs>upgrade -i -f sources/values-nginx-ingress.yaml nginx-ingress stable/nginx-ingress --version=1.25.2</commandlineArgs>
+              <commandlineArgs>upgrade -i -f sources/values-nginx-ingress.yaml ingress-nginx ingress-nginx/ingress-nginx --version=4.7.0 --wait</commandlineArgs>
             </configuration>
           </execution>
           <execution>
@@ -256,7 +255,7 @@
               <goal>exec</goal>
             </goals>
             <configuration>
-              <commandlineArgs>upgrade -i -f sources/values-cert-manager.yaml cert-manager jetstack/cert-manager --version=0.12.0 --set ingressShim.defaultIssuerName=letsencrypt --set ingressShim.defaultIssuerKind=ClusterIssuer --set ingressShim.defaultIssuerGroup=cert-manager.io --set createCustomResource=true --wait</commandlineArgs>
+              <commandlineArgs>upgrade -i -f sources/values-cert-manager.yaml cert-manager jetstack/cert-manager --namespace cert-manager --create-namespace --version=v1.12.2 --set installCRDs=true --wait</commandlineArgs>
             </configuration>
           </execution>
           <execution>
